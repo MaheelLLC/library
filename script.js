@@ -110,3 +110,21 @@ submit_button.addEventListener("click", (event) => {
     dialog.close();
 });
 
+const search_bar = document.querySelector("#search");
+
+search_bar.addEventListener("input", () => {
+    let search_bar_text = search_bar.value.toLowerCase();
+
+    // iterate through all book cards
+    document.querySelectorAll(".book_card").forEach((book_card) => {
+        // get the title from the card
+        const card_title = book_card.querySelector(".detail_container span:nth-child(2)").innerText.toLowerCase();
+
+        // check if the title starts with the search text
+        if (card_title.startsWith(search_bar_text)) {
+            book_card.style.display = "block";
+        } else {
+            book_card.style.display = "none";
+        }
+    });
+});
