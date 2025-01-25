@@ -122,7 +122,7 @@ search_bar.addEventListener("input", () => {
 
         // check if the title starts with the search text
         if (card_title.startsWith(search_bar_text)) {
-            book_card.style.display = "block";
+            book_card.style.display = "flex";
         } else {
             book_card.style.display = "none";
         }
