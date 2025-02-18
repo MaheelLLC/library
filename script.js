@@ -1,25 +1,43 @@
-const my_library = [];
+class Book {
+    constructor(title, author, num_pages, is_read) {
+        this.title = title;
+        this.author = author;
+        this.num_pages = num_pages;
+        this.is_read = is_read;
+    }
 
-function Book(title, author, num_pages, read) {
-    this.title = title;
-    this.author = author;
-    this.num_pages = num_pages;
-    this.read = read;
-    this.info = function() {
-        if (this.read) {
+    info() {
+        if (this.is_read) {
             return `${this.title} by ${this.author}, ${this.num_pages} pages, read`;
         } else {
             return `${this.title} by ${this.author}, ${this.num_pages} pages, not read yet`;
         }
-    };
+    }
 }
 
-function add_book_to_library(title, author, pages, is_read) {
-    const new_book = new Book(title, author, pages, is_read);
-    my_library.push(new_book);
-    return new_book;
+class Library {
+    constructor() {
+        this.my_library = [];
+    }
+
+    addBook(title, author, pages, is_read) {
+        const new_book = new Book(title, author, pages, is_read);
+        this.my_library.push(new_book);
+        return new_book;
+    }
+
+    removeBook(index) {
+        if (index !== -1) {
+            this.my_library.splice(index, 1);
+        }
+    }
+
+    grabBookIndex(book) {
+        return this.my_library.indexOf(book);
+    }
 }
 
+const library = new Library();
 const dialog = document.querySelector("dialog");
 const new_book = document.querySelector("#new_book");
 const close_dialog = document.querySelector("#close_dialog");
@@ -81,25 +99,22 @@ submit_button.addEventListener("click", (event) => {
     const close_button = book_card.querySelector(".close_book");
 
     // add book to the library
-    let new_book = add_book_to_library(title, author, pages, is_read)
+    let new_book = library.addBook(title, author, pages, is_read);
 
     close_button.addEventListener("click", () => {
         // delete the entire book card
         book_card.remove();
 
         // grab the index of the book inside my library array
-        index = my_library.indexOf(new_book);
+        index = library.grabBookIndex(new_book);
         
-        if (index !== -1) {
-            // remove the book from the library array
-            my_library.splice(index, 1);
-        }
+        library.removeBook(index);
     });
 
     const read_status_button = book_card.querySelector(".read_status");
 
     read_status_button.addEventListener("change", () => {
-        new_book.read = !new_book.read;
+        new_book.is_read = !new_book.is_read;
     });
     
     // append the card to the book_cards container
